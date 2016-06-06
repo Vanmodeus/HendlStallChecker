@@ -4,12 +4,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-
-import com.mysql.cj.api.jdbc.Statement;
 
 @RunWith(JUnit4.class)
 public class MySQLTest {
@@ -26,7 +25,7 @@ public class MySQLTest {
 			connect = DriverManager.getConnection("jdbc:mysql://raspberrypi/mus?" + "user=myuser&password=mypass");
 
 			// Statements allow to issue SQL queries to the database
-			statement = (Statement) connect.createStatement();
+			statement = connect.createStatement();
 			// Result set get the result of the SQL query
 			resultSet = statement.executeQuery("select * from Huhn");
 			writeResultSet(resultSet);
