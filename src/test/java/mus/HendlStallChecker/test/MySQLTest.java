@@ -21,7 +21,7 @@ public class MySQLTest {
 	public void test() {
 		try {
 			// This will load the MySQL driver, each DB has its own driver
-			Class.forName("com.mysql.cj.jdbc.Driver");
+			Class.forName("com.mysql.jdbc.Driver");
 			// Setup the connection with the DB
 			connect = DriverManager.getConnection("jdbc:mysql://raspberrypi/mus?" + "user=myuser&password=mypass");
 
