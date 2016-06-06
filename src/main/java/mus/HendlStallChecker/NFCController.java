@@ -20,18 +20,24 @@ public class NFCController {
 			List<CardTerminal> terminals = factory.terminals().list();
 			return terminals.get(0);
 		} catch (Exception e) {
+			System.out.println(e);
 		}
 		return null;
 	}
 
-	public void checkForCards() throws Exception {
+	public void checkForCards(boolean onlyOnce) throws Exception {
+		if (terminal == null) {
+			throw new Exception("Kein NFC-Reader vorhanden");
+		}
 		while (true) {
 			terminal.waitForCardPresent(0);
 			try {
 				Card card = terminal.connect("*");
 				String uid = NFCCommand.readUID(card.getBasicChannel());
 				System.out.println(uid);
-
+				if (onlyOnce) {
+					break;
+				}
 				Thread.sleep(500);
 				while (terminal.isCardPresent()) {
 					Thread.sleep(100);
