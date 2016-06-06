@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: mus.HendlStallChecker.LEDTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.008 sec <<< FAILURE!
-testExtractedImage(mus.HendlStallChecker.LEDTest)  Time elapsed: 0.008 sec  <<< ERROR!
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.002 sec <<< FAILURE!
+testExtractedImage(mus.HendlStallChecker.LEDTest)  Time elapsed: 0.001 sec  <<< ERROR!
 java.lang.UnsatisfiedLinkError: com.pi4j.wiringpi.Gpio.wiringPiSetup()I
 	at com.pi4j.wiringpi.Gpio.wiringPiSetup(Native Method)
 	at com.pi4j.io.gpio.RaspiGpioProvider.<init>(RaspiGpioProvider.java:51)

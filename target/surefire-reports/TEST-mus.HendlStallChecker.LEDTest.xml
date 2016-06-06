@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="1" failures="0" name="mus.HendlStallChecker.LEDTest" time="0.008" errors="1" skipped="0">
+<testsuite tests="1" failures="0" name="mus.HendlStallChecker.LEDTest" time="0.001" errors="1" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk1.8.0_73\jre\bin"/>
@@ -27,7 +27,7 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="user.variant" value=""/>
     <property name="os.name" value="Windows 10"/>
-    <property name="classworlds.conf" value="C:\Users\Vanmodeus\mus\workspace\.metadata\.plugins\org.eclipse.m2e.launching\launches\m2conf6261981912119777045.tmp"/>
+    <property name="classworlds.conf" value="C:\Users\Vanmodeus\mus\workspace\.metadata\.plugins\org.eclipse.m2e.launching\launches\m2conf6386353843773823724.tmp"/>
     <property name="sun.jnu.encoding" value="Cp1252"/>
     <property name="java.library.path" value="C:\Program Files\Java\jdk1.8.0_73\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:/Program Files/Java/jre1.8.0_91/bin/server;C:/Program Files/Java/jre1.8.0_91/bin;C:/Program Files/Java/jre1.8.0_91/lib/amd64;C:\ProgramData\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Skype\Phone\;C:\WINDOWS\system32\config\systemprofile\.dnx\bin;C:\Program Files\Microsoft DNX\Dnvm\;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Program Files\Microsoft SQL Server\120\Tools\Binn\;C:\Program Files\Java\jdk1.8.0_77;C:\Program Files\avconv\usr\bin;C:\Public\SVE2\bin\apache-maven-3.3.9\bin;C:\Program Files\Java\jdk1.8.0_77;C:\Program Files\avconv\usr\bin;C:\Users\Vanmodeus\Desktop\eclipse;;."/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
@@ -61,7 +61,7 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="mus.HendlStallChecker.LEDTest" name="testExtractedImage" time="0.008">
+  <testcase classname="mus.HendlStallChecker.LEDTest" name="testExtractedImage" time="0.001">
     <error message="com.pi4j.wiringpi.Gpio.wiringPiSetup()I" type="java.lang.UnsatisfiedLinkError">java.lang.UnsatisfiedLinkError: com.pi4j.wiringpi.Gpio.wiringPiSetup()I
 	at com.pi4j.wiringpi.Gpio.wiringPiSetup(Native Method)
 	at com.pi4j.io.gpio.RaspiGpioProvider.&lt;init&gt;(RaspiGpioProvider.java:51)
@@ -99,7 +99,7 @@
 	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
 </error>
-    <system-err>Jun 06, 2016 5:19:56 PM com.pi4j.util.NativeLibraryLoader load
+    <system-err>Jun 06, 2016 6:53:37 PM com.pi4j.util.NativeLibraryLoader load
 SCHWERWIEGEND: Unable to load [libpi4j.so] using path: [/lib/libpi4j.so]
 java.lang.IllegalArgumentException: The path has to be absolute, but found: \lib\libpi4j.so
 	at com.pi4j.util.NativeLibraryLoader.loadLibraryFromClasspath(NativeLibraryLoader.java:120)

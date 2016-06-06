@@ -16,13 +16,12 @@ public class LEDTest {
 	public void testExtractedImage() throws Exception {
 		final GpioController gpio = GpioFactory.getInstance();
 
-		GpioPinDigitalOutput myLed = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_05, // PIN NUMBER
-				"My LED", // PIN FRIENDLY NAME (optional)
-				PinState.LOW); // PIN STARTUP STATE (optional)
+		GpioPinDigitalOutput myLed = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_00);
 
 		// explicitly set a state on the pin object
 		myLed.setState(PinState.HIGH);
 
+		Thread.sleep(1000);
 		// use convenience wrapper method to set state on the pin object
 		myLed.low();
 		myLed.high();
