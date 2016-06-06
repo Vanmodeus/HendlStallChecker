@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-package mus.HendlStallChecker;
-
-import static com.google.common.truth.Truth.assertThat;
+package mus.HendlStallChecker.test;
 
 import java.nio.file.Paths;
 import java.util.List;
@@ -28,6 +26,8 @@ import org.junit.runners.JUnit4;
 
 import com.google.api.services.vision.v1.model.EntityAnnotation;
 import com.google.common.collect.ImmutableSet;
+
+import mus.periphery.ImageTagger;
 
 /**
  * Integration (system) tests for {@link LabelApp}.

@@ -1,4 +1,4 @@
-package mus.HendlStallChecker;
+package mus.periphery;
 
 import java.io.FileInputStream;
 import java.io.IOException;

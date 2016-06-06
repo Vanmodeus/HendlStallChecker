@@ -1,9 +1,11 @@
-package mus.HendlStallChecker;
+package mus.periphery;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
 import java.nio.file.Paths;
+
+import mus.utility.HendlStallUtility;
 
 public class OnvifExtractor {
 
@@ -11,7 +13,7 @@ public class OnvifExtractor {
 		try {
 			String tmpDir = System.getProperty("java.io.tmpdir");
 			String file = Paths.get(tmpDir, "onvif.jpg").toAbsolutePath().toString();
-			String command = "avconv -i rtsp://10.0.0.69:554/onvif1 -r 1 " + file;
+			String command = "avconv -i rtsp://" + HendlStallUtility.getWebcamIP() + ":554/onvif1 -r 1 " + file;
 
 			// Prepend OS-Code for Command-Prompt / Shell / Console / etc., you know what i mean
 			String os = System.getProperty("os.name");

@@ -1,4 +1,4 @@
-package mus.HendlStallChecker;
+package mus.periphery;
 
 import javax.smartcardio.CardChannel;
 import javax.smartcardio.CommandAPDU;

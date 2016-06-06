@@ -1,4 +1,4 @@
-package mus.HendlStallChecker;
+package mus.HendlStallChecker.test;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,7 +12,7 @@ import org.junit.runners.JUnit4;
 import com.mysql.cj.api.jdbc.Statement;
 
 @RunWith(JUnit4.class)
-public class TestMySQL {
+public class MySQLTest {
 	private Connection connect = null;
 	private Statement statement = null;
 	private ResultSet resultSet = null;

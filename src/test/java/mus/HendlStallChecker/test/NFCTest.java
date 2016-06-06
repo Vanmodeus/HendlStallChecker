@@ -1,8 +1,10 @@
-package mus.HendlStallChecker;
+package mus.HendlStallChecker.test;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+
+import mus.periphery.NFCController;
 
 @RunWith(JUnit4.class)
 public class NFCTest {
