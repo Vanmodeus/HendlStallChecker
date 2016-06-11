@@ -31,7 +31,7 @@ public class DbChickenRepoTests extends TestCase {
 	public void Test_Chicken_get() {
 		DbChickenRepo repo = DbFactory.Instance().CreateDbChickenRepo();
 		
-		Chicken chick = repo.get(1);
+		Chicken chick = repo.get("3635CA329000");
 		assertEquals(1l, chick.getId());
 		assertEquals("Henrietta", chick.getName());
 		assertEquals("3635CA329000", chick.getNfcid());
@@ -42,11 +42,11 @@ public class DbChickenRepoTests extends TestCase {
 	public void Test_Chicken_changeAvailability() {
 		DbChickenRepo repo = DbFactory.Instance().CreateDbChickenRepo();
 		
-		Chicken chick = repo.get(1);
+		Chicken chick = repo.get("3635CA329000");
 		assertNotNull(chick);
 
-		repo.changeAvailability(1);
+		repo.changeAvailability(chick.getNfcid());
 		
-		assertEquals(!chick.isInside(), repo.get(1).isInside());
+		assertEquals(!chick.isInside(), repo.get("3635CA329000").isInside());
 	}
 }

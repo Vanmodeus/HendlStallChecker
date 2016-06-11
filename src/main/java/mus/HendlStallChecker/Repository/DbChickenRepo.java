@@ -16,11 +16,11 @@ public class DbChickenRepo {
 		this.connection = connection;
 	}
 	
-	public void changeAvailability(long id){
+	public void changeAvailability(String nfcId){
 		PreparedStatement statement = null;
 		try {
-			statement = connection.prepareStatement("update Chicken set inside = not inside where id=?;");
-			statement.setLong(1, id);
+			statement = connection.prepareStatement("update Chicken set inside = not inside where rfidID=?;");
+			statement.setString(1, nfcId);
 			
 			int res = statement.executeUpdate();
 			if(res == 0)
@@ -68,12 +68,12 @@ public class DbChickenRepo {
 		return chicks;
 	}
 	
-	public Chicken get(long id){
+	public Chicken get(String nfcId){
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
 		try {
-			statement = connection.prepareStatement("select * from Chicken where id = ?;");
-			statement.setLong(1, id);
+			statement = connection.prepareStatement("select * from Chicken where rfidID = ?;");
+			statement.setString(1, nfcId);
 			
 			resultSet = statement.executeQuery();
 			

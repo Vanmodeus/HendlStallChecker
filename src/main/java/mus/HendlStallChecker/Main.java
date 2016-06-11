@@ -3,6 +3,8 @@ package mus.HendlStallChecker;
 public class Main {
 	
 	public static void main(String[] args) throws Exception {
-		new HendlStallVerwalter();
+		HendlStallVerwalter admin = new HendlStallVerwalter();
+		
+		admin.startOpenDoorThread();
 	}
 }

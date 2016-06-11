@@ -25,6 +25,7 @@ public class NFCController {
 		return null;
 	}
 
+	@SuppressWarnings("restriction")
 	public void checkForCards(boolean onlyOnce) throws Exception {
 		if (terminal == null) {
 			throw new Exception("Kein NFC-Reader vorhanden");
@@ -45,5 +46,23 @@ public class NFCController {
 			} catch (Exception e) {
 			}
 		}
+	}
+	
+	@SuppressWarnings("restriction")
+	public String waitForNfcCard() throws Exception{
+		if (terminal == null) {
+			throw new Exception("Kein NFC-Reader vorhanden");
+		}
+		
+		terminal.waitForCardPresent(0);
+		Card card = terminal.connect("*");
+		String uid = NFCCommand.readUID(card.getBasicChannel());
+		
+		Thread.sleep(500);
+		while (terminal.isCardPresent()) {
+			Thread.sleep(100);
+		}
+		
+		return uid;
 	}
 }
