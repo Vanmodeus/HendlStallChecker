@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package mus.HendlStallChecker.test;
+package mus.HendlStallChecker.test.Infrastructure;
 
 import java.nio.file.Paths;
 import java.util.List;

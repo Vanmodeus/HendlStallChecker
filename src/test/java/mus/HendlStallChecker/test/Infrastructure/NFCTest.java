@@ -1,4 +1,4 @@
-package mus.HendlStallChecker.test;
+package mus.HendlStallChecker.test.Infrastructure;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

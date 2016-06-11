@@ -1,4 +1,4 @@
-package mus.HendlStallChecker.test;
+package mus.HendlStallChecker.test.Infrastructure;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
