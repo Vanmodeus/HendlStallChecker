@@ -32,16 +32,25 @@ public class OpenDoorThread implements Runnable {
 				DbFactory.Instance().CreateDbLogRepo().insert(new Log(chickId, new Date()));
 				
 				//activate led
-				final GpioController gpio = GpioFactory.getInstance();
-				GpioPinDigitalOutput myLed = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_00);
-				myLed.setState(PinState.HIGH);
+				openDoor();
 				
 				//start close door thread
+				(new CloseDoorThread()).run();
 				
 			} catch (Exception e) {
 				System.err.println("exception while waiting for nfc card");
 				e.printStackTrace();
 			}
+		}
+	}
+
+	private void openDoor() {
+		if(System.getProperty("os.name").contains("Windows"))
+			System.out.println("opening door...");
+		else{
+			final GpioController gpio = GpioFactory.getInstance();
+			GpioPinDigitalOutput myLed = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_00);
+			myLed.setState(PinState.HIGH);			
 		}
 	}
 

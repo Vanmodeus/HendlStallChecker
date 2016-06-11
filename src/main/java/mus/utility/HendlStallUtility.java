@@ -26,4 +26,14 @@ public class HendlStallUtility {
 		String ipcamAddress = prop.getProperty("dbAddress");
 		return ipcamAddress;
 	}
+	public static int getCloseDoorTimeoutSeconds() throws Exception {
+		Properties prop = new Properties();
+		String propFileName = PROP_FILENAME;
+		InputStream inputStream = new FileInputStream(propFileName);
+		prop.load(inputStream);
+
+		String timeoutSecsString = prop.getProperty("closeDoorTimeoutSecs");
+		int timeoutSecs = Integer.parseInt(timeoutSecsString);
+		return timeoutSecs;
+	}
 }
