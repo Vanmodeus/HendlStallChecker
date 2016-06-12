@@ -40,7 +40,10 @@ public class IntrusionDetectorThread implements Runnable {
 			
 			try {
 				//capture camera image
-				new OnvifExtractor().extractPicture();
+				if(!new OnvifExtractor().extractPicture()){
+					this.end();
+					throw new IllegalStateException("Error taking picture from camera! Stopping now");
+				}
 				
 				//tag image
 				ImmutableSet<String> descriptions = tagImage();

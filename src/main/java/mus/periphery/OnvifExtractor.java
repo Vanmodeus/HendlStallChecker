@@ -9,7 +9,7 @@ import mus.utility.HendlStallUtility;
 
 public class OnvifExtractor {
 
-	public void extractPicture() {
+	public boolean extractPicture() {
 		try {
 			String tmpDir = System.getProperty("java.io.tmpdir");
 			String file = Paths.get(tmpDir, "onvif.jpg").toAbsolutePath().toString();
@@ -17,12 +17,12 @@ public class OnvifExtractor {
 
 			// Prepend OS-Code for Command-Prompt / Shell / Console / etc., you know what i mean
 			String os = System.getProperty("os.name");
-			System.out.println("Detected OS: " + os);
+//			System.out.println("Detected OS: " + os);
 			if (os.toLowerCase().contains("windows")) {
 				command = "cmd /c " + command;
 			}
 
-			System.out.println("Start avconv");
+//			System.out.println("Start avconv");
 			Process pr = Runtime.getRuntime().exec(command);
 
 			// Fancy falls notwendig, aber egal weil immer der Fehler bei der scheiß HiKam kumt -> Also FileCheck
@@ -35,19 +35,22 @@ public class OnvifExtractor {
 			reader.close();
 
 			int exitVal = pr.waitFor();
-			System.out.println("avconv finished (ExitValue: " + exitVal + ")");
+//			System.out.println("avconv finished (ExitValue: " + exitVal + ")");
 
-			System.out.println("Check for File... (" + file + ")");
+//			System.out.println("Check for File... (" + file + ")");
 			if (!new File(file).exists()) {
-				System.out.println("Error writing file (Exit Code: " + exitVal + ")");
-				System.out.println(errorMsg.toString());
+				System.err.println("Error writing file (Exit Code: " + exitVal + ")");
+				System.err.println(errorMsg.toString());
 				throw new IllegalStateException("Camera image could not be written!");
 			} else {
-				System.out.println("OK");
+//				System.out.println("OK");
+				return true;
 			}
 
 		} catch (Exception e) {
 			System.err.println(e);
 		}
+		
+		return false;
 	}
 }
