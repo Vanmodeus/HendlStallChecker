@@ -1,4 +1,4 @@
-package mus.HendlStallChecker.nfc.factory;
+package mus.HendlStallChecker.door.factory;
 
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;

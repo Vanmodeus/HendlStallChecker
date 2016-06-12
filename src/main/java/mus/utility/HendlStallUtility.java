@@ -36,4 +36,23 @@ public class HendlStallUtility {
 		int timeoutSecs = Integer.parseInt(timeoutSecsString);
 		return timeoutSecs;
 	}
+	public static int getFoxPictureTimeoutSeconds() throws Exception {
+		Properties prop = new Properties();
+		String propFileName = PROP_FILENAME;
+		InputStream inputStream = new FileInputStream(propFileName);
+		prop.load(inputStream);
+
+		String timeoutSecsString = prop.getProperty("foxPictureTimeoutSecs");
+		int timeoutSecs = Integer.parseInt(timeoutSecsString);
+		return timeoutSecs;
+	}
+	public static String getIntrusionLogLevel() throws Exception {
+		Properties prop = new Properties();
+		String propFileName = PROP_FILENAME;
+		InputStream inputStream = new FileInputStream(propFileName);
+		prop.load(inputStream);
+
+		String logLevelString = prop.getProperty("intrusionLogLevel");
+		return logLevelString;
+	}
 }

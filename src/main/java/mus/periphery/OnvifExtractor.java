@@ -41,6 +41,7 @@ public class OnvifExtractor {
 			if (!new File(file).exists()) {
 				System.out.println("Error writing file (Exit Code: " + exitVal + ")");
 				System.out.println(errorMsg.toString());
+				throw new IllegalStateException("Camera image could not be written!");
 			} else {
 				System.out.println("OK");
 			}

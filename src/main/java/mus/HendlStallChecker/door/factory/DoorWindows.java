@@ -1,4 +1,4 @@
-package mus.HendlStallChecker.nfc.factory;
+package mus.HendlStallChecker.door.factory;
 
 public class DoorWindows implements IDoor {
 

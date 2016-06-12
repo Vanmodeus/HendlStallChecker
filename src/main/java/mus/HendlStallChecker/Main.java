@@ -1,5 +1,7 @@
 package mus.HendlStallChecker;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.Properties;
 
 public class Main {
@@ -16,5 +18,12 @@ public class Main {
 		HendlStallVerwalter admin = new HendlStallVerwalter();
 		
 		admin.startOpenDoorThread();
+		admin.startIntrusionDetection();
+		
+		//wait for keypress
+		BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
+	    bufferRead.readLine();
+	    
+	    admin.stopAllThread();
 	}
 }

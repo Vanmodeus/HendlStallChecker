@@ -1,4 +1,4 @@
-package mus.HendlStallChecker.nfc;
+package mus.HendlStallChecker.door;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -6,11 +6,13 @@ import java.util.Date;
 import mus.HendlStallChecker.Repository.DbChickenRepo;
 import mus.HendlStallChecker.Repository.DbFactory;
 import mus.HendlStallChecker.Repository.Log;
-import mus.HendlStallChecker.nfc.factory.DoorFactory;
+import mus.HendlStallChecker.door.factory.DoorFactory;
 import mus.periphery.NFCController;
 
 public class OpenDoorThread implements Runnable {
 
+	private Thread closeDoorThread;
+	
 	public void run() {
 		System.out.println("OPEN DOOR thread started...");
 		NFCController controller = new NFCController();
@@ -18,6 +20,12 @@ public class OpenDoorThread implements Runnable {
 			try {
 				String nfcid = controller.waitForNfcCard();
 				System.out.println(nfcid);
+				
+				//interrupt close door thread
+				if(closeDoorThread.isAlive()){
+					closeDoorThread.interrupt();
+					closeDoorThread.join();
+				}
 				
 				//update status of chicken in DB
 				DbChickenRepo repo = DbFactory.Instance().CreateDbChickenRepo();
@@ -32,9 +40,13 @@ public class OpenDoorThread implements Runnable {
 				DoorFactory.CreateDoorHandler().openDoor();
 				
 				//start close door thread
-				(new CloseDoorThread()).run();
-				
-			} catch (Exception e) {
+				closeDoorThread = new Thread(new CloseDoorThread());
+				closeDoorThread.start();
+			}
+			catch(InterruptedException e){
+				System.out.println("stopping door thread...");
+			}
+			catch (Exception e) {
 				System.err.println("exception while waiting for nfc card - stopping service!");
 				e.printStackTrace();
 				break;
