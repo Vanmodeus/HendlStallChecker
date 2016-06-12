@@ -38,8 +38,9 @@ public class OpenDoorThread implements Runnable {
 				(new CloseDoorThread()).run();
 				
 			} catch (Exception e) {
-				System.err.println("exception while waiting for nfc card");
+				System.err.println("exception while waiting for nfc card - stopping service!");
 				e.printStackTrace();
+				break;
 			}
 		}
 	}
