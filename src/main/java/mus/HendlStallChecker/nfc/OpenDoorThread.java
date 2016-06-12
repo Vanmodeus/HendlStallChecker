@@ -2,15 +2,10 @@ package mus.HendlStallChecker.nfc;
 
 import java.util.Date;
 
-import com.pi4j.io.gpio.GpioController;
-import com.pi4j.io.gpio.GpioFactory;
-import com.pi4j.io.gpio.GpioPinDigitalOutput;
-import com.pi4j.io.gpio.PinState;
-import com.pi4j.io.gpio.RaspiPin;
-
 import mus.HendlStallChecker.Repository.DbChickenRepo;
 import mus.HendlStallChecker.Repository.DbFactory;
 import mus.HendlStallChecker.Repository.Log;
+import mus.HendlStallChecker.nfc.factory.DoorFactory;
 import mus.periphery.NFCController;
 
 public class OpenDoorThread implements Runnable {
@@ -31,8 +26,8 @@ public class OpenDoorThread implements Runnable {
 				long chickId = repo.get(nfcid).getId();
 				DbFactory.Instance().CreateDbLogRepo().insert(new Log(chickId, new Date()));
 				
-				//activate led
-				openDoor();
+				//open door
+				DoorFactory.CreateDoorHandler().openDoor();
 				
 				//start close door thread
 				(new CloseDoorThread()).run();
@@ -44,18 +39,4 @@ public class OpenDoorThread implements Runnable {
 			}
 		}
 	}
-
-	private void openDoor() {
-		if(System.getProperty("os.name").contains("Windows"))
-			System.out.println("opening door...");
-		else{
-			final GpioController gpio = GpioFactory.getInstance();
-			GpioPinDigitalOutput myLed = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_00);
-			myLed.setState(PinState.LOW);
-			myLed.setState(PinState.HIGH);
-			gpio.shutdown();
-			gpio.unprovisionPin(myLed);
-		}
-	}
-
 }
