@@ -68,8 +68,9 @@ public class IntrusionDetectorThread implements Runnable {
 						throw new IllegalStateException("Error inserting a new intrusion");
 					
 					//rename image file to db key
-					String imgFile = HendlStallUtility.getSystemTempDir() + OnvifExtractor.IMAGE_NAME;
-					String imgFileNew = HendlStallUtility.getSystemTempDir() + id + "." + OnvifExtractor.IMAGE_NAME.split("\\.")[1];
+					String path = HendlStallUtility.getSystemTempDir().replace('\\', '/') + "/";
+					String imgFile = path + OnvifExtractor.IMAGE_NAME;
+					String imgFileNew = path + id + "." + OnvifExtractor.IMAGE_NAME.split("\\.")[1];
 					
 					File source = new File(imgFile);
 					File dest = new File (imgFileNew);
