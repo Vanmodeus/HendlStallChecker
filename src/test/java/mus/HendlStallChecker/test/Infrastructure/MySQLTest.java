@@ -27,7 +27,7 @@ public class MySQLTest {
 			// Statements allow to issue SQL queries to the database
 			statement = connect.createStatement();
 			// Result set get the result of the SQL query
-			resultSet = statement.executeQuery("select * from Huhn");
+			resultSet = statement.executeQuery("select * from Chicken");
 			writeResultSet(resultSet);
 		} catch (Exception e) {
 			System.err.println(e);
