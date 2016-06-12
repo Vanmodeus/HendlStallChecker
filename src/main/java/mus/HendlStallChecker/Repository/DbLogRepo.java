@@ -52,7 +52,7 @@ public class DbLogRepo {
 			statement = connection.prepareStatement("insert into Log values(?,?,?);");
 			statement.setLong(1, log.getId());
 			statement.setLong(2, log.getIdChicken());
-			statement.setDate(3, new java.sql.Date(log.getTimestamp().getTime()));
+			statement.setTimestamp(3, new java.sql.Timestamp(log.getTimestamp().getTime()));
 			
 			int res = statement.executeUpdate();
 			if(res == 0)

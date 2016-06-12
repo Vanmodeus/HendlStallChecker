@@ -1,5 +1,6 @@
 package mus.HendlStallChecker.nfc;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import mus.HendlStallChecker.Repository.DbChickenRepo;
@@ -24,7 +25,8 @@ public class OpenDoorThread implements Runnable {
 				
 				//insert log entry
 				long chickId = repo.get(nfcid).getId();
-				DbFactory.Instance().CreateDbLogRepo().insert(new Log(chickId, new Date()));
+				Date time = Calendar.getInstance().getTime();
+				DbFactory.Instance().CreateDbLogRepo().insert(new Log(chickId, time));
 				
 				//open door
 				DoorFactory.CreateDoorHandler().openDoor();
