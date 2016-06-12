@@ -9,10 +9,11 @@ import mus.utility.HendlStallUtility;
 
 public class OnvifExtractor {
 
+	public static final String IMAGE_NAME = "onvif.jpg";
 	public boolean extractPicture() {
 		try {
-			String tmpDir = System.getProperty("java.io.tmpdir");
-			String file = Paths.get(tmpDir, "onvif.jpg").toAbsolutePath().toString();
+			String tmpDir = HendlStallUtility.getSystemTempDir();
+			String file = Paths.get(tmpDir, IMAGE_NAME).toAbsolutePath().toString();
 			String command = "avconv -i rtsp://" + HendlStallUtility.getWebcamIP() + ":554/onvif1 -r 1 " + file;
 
 			// Prepend OS-Code for Command-Prompt / Shell / Console / etc., you know what i mean

@@ -55,4 +55,8 @@ public class HendlStallUtility {
 		String logLevelString = prop.getProperty("intrusionLogLevel");
 		return logLevelString;
 	}
+	
+	public static String getSystemTempDir() {
+		return System.getProperty("java.io.tmpdir");
+	}
 }

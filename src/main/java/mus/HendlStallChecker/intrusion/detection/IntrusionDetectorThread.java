@@ -1,13 +1,19 @@
 package mus.HendlStallChecker.intrusion.detection;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.security.GeneralSecurityException;
+import java.util.Calendar;
 import java.util.List;
 
 import com.google.api.services.vision.v1.model.EntityAnnotation;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.io.Files;
 
+import mus.HendlStallChecker.Repository.DbFactory;
+import mus.HendlStallChecker.Repository.Intrusion;
+import mus.HendlStallChecker.Repository.IntrusionAlertLevel;
 import mus.periphery.ImageTagger;
 import mus.periphery.OnvifExtractor;
 import mus.utility.HendlStallUtility;
@@ -48,12 +54,26 @@ public class IntrusionDetectorThread implements Runnable {
 				//tag image
 				ImmutableSet<String> descriptions = tagImage();
 
-				//detect fox
+				//detect intruder
 				IntrusionAlertLevel level = getThreadDetectionLevel(descriptions);
 				
 				if(level.getValue() >= IntrusionAlertLevel.valueOf(HendlStallUtility.getIntrusionLogLevel()).getValue()){
-					//log to db
-					System.out.println("damn - detected an intruder");
+					//log
+					System.out.println("intruder: " + level + "!");
+					
+					//db insert
+					long id = DbFactory.Instance().CreateDbIntrusionRepo().insert(
+							new Intrusion(level.getValue(), Calendar.getInstance().getTime()));
+					if(id == -1)
+						throw new IllegalStateException("Error inserting a new intrusion");
+					
+					//rename image file to db key
+					String imgFile = HendlStallUtility.getSystemTempDir() + OnvifExtractor.IMAGE_NAME;
+					String imgFileNew = HendlStallUtility.getSystemTempDir() + id + "." + OnvifExtractor.IMAGE_NAME.split("\\.")[1];
+					
+					File source = new File(imgFile);
+					File dest = new File (imgFileNew);
+					Files.copy(source, dest);
 				}
 				
 				//wait

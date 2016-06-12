@@ -1,7 +1,7 @@
-package mus.HendlStallChecker.intrusion.detection;
+package mus.HendlStallChecker.Repository;
 
 public enum IntrusionAlertLevel {
-	WARNING_UNDEFINED(1), SEVERE_CARNIVORE(2), CRITICAL_SPECIFIC(3);
+	WARNING_UNDEFINED(0), SEVERE_CARNIVORE(1), CRITICAL_SPECIFIC(2);
 	
 	private final int value;
     private IntrusionAlertLevel(int value) {

@@ -64,4 +64,14 @@ public class DbFactory {
 		}
 		return null;
 	}
+	
+	public DbIntrusionRepo CreateDbIntrusionRepo(){
+		try {
+			return new DbIntrusionRepo(this.cpds.getConnection());
+		} catch (SQLException e) {
+			System.err.println("error getting connection from c3po connection pool!");
+			e.printStackTrace();
+		}
+		return null;
+	}
 }
