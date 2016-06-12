@@ -51,7 +51,10 @@ public class OpenDoorThread implements Runnable {
 		else{
 			final GpioController gpio = GpioFactory.getInstance();
 			GpioPinDigitalOutput myLed = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_00);
-			myLed.setState(PinState.HIGH);			
+			myLed.setState(PinState.LOW);
+			myLed.setState(PinState.HIGH);
+			gpio.shutdown();
+			gpio.unprovisionPin(myLed);
 		}
 	}
 

@@ -27,12 +27,11 @@ public class CloseDoorThread implements Runnable{
 		if(System.getProperty("os.name").contains("Windows"))
 			System.out.println("closing door...");
 		else{
-			System.out.println("getting instance...");
 			final GpioController gpio = GpioFactory.getInstance();
-			System.out.println("provisioning output pin");
 			GpioPinDigitalOutput myLed = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_00);
-			System.out.println("setting state...low");
-			myLed.setState(PinState.LOW);			
+			myLed.setState(PinState.LOW);
+			gpio.shutdown();
+			gpio.unprovisionPin(myLed);
 		}
 	}
 
