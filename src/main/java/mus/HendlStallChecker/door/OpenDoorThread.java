@@ -22,7 +22,7 @@ public class OpenDoorThread implements Runnable {
 				System.out.println(nfcid);
 				
 				//interrupt close door thread
-				if(closeDoorThread.isAlive()){
+				if(closeDoorThread != null && closeDoorThread.isAlive()){
 					closeDoorThread.interrupt();
 					closeDoorThread.join();
 				}
