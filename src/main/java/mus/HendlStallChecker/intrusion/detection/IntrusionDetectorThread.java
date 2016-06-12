@@ -93,11 +93,11 @@ public class IntrusionDetectorThread implements Runnable {
 	private IntrusionAlertLevel getThreadDetectionLevel(ImmutableSet<String> descriptions) {
 		boolean fox = descriptions.contains("fox");
 		boolean marten = descriptions.contains("mustelidae");
-		boolean carivore = descriptions.contains("carnivoran");
+		boolean carnivore = descriptions.contains("carnivoran");
 		
 		if(fox || marten)
 			return IntrusionAlertLevel.CRITICAL_SPECIFIC;
-		else if(carivore)
+		else if(carnivore)
 			return IntrusionAlertLevel.SEVERE_CARNIVORE;
 		return IntrusionAlertLevel.WARNING_UNDEFINED;
 	}
