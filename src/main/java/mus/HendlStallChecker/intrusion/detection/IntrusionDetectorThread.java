@@ -2,6 +2,7 @@ package mus.HendlStallChecker.intrusion.detection;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.management.PlatformLoggingMXBean;
 import java.nio.file.Paths;
 import java.security.GeneralSecurityException;
 import java.util.Calendar;
@@ -60,8 +61,13 @@ public class IntrusionDetectorThread implements Runnable {
 				IntrusionAlertLevel level = getThreadDetectionLevel(descriptions);
 				
 				//alarm
-				if(level == IntrusionAlertLevel.CRITICAL_SPECIFIC)
-					PlatformHelper.pulse(RaspiPin.GPIO_01, 2000);
+				if(level == IntrusionAlertLevel.CRITICAL_SPECIFIC){
+					PlatformHelper.touchLed(RaspiPin.GPIO_01, true);
+//					PlatformHelper.pulse(RaspiPin.GPIO_01, 500);
+					Thread.sleep(1000);
+					PlatformHelper.touchLed(RaspiPin.GPIO_01, false);
+				}
+				
 				
 				if(level.getValue() >= IntrusionAlertLevel.valueOf(HendlStallUtility.getIntrusionLogLevel()).getValue()){
 					//log
