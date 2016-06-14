@@ -10,6 +10,7 @@ import java.util.List;
 import com.google.api.services.vision.v1.model.EntityAnnotation;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.io.Files;
+import com.pi4j.io.gpio.RaspiPin;
 
 import mus.HendlStallChecker.Repository.DbFactory;
 import mus.HendlStallChecker.Repository.Intrusion;
@@ -17,6 +18,7 @@ import mus.HendlStallChecker.Repository.IntrusionAlertLevel;
 import mus.periphery.ImageTagger;
 import mus.periphery.OnvifExtractor;
 import mus.utility.HendlStallUtility;
+import mus.utility.PlatformHelper;
 
 public class IntrusionDetectorThread implements Runnable {
 
@@ -56,6 +58,10 @@ public class IntrusionDetectorThread implements Runnable {
 
 				//detect intruder
 				IntrusionAlertLevel level = getThreadDetectionLevel(descriptions);
+				
+				//alarm
+				if(level == IntrusionAlertLevel.CRITICAL_SPECIFIC)
+					PlatformHelper.pulse(RaspiPin.GPIO_01, 2000);
 				
 				if(level.getValue() >= IntrusionAlertLevel.valueOf(HendlStallUtility.getIntrusionLogLevel()).getValue()){
 					//log
