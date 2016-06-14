@@ -15,10 +15,10 @@ public class PlatformHelper {
 		gpio.unprovisionPin(myLed);
 	}
 
-	public static void pulse(Pin gpioNr, int millis){
+	public static void blink(Pin gpioNr, int delay, int durationSecs){
 		final GpioController gpio = GpioFactory.getInstance();
 		GpioPinDigitalOutput myLed = gpio.provisionDigitalOutputPin(gpioNr);
-		myLed.pulse(millis);
+		myLed.blink(delay, durationSecs);
 		gpio.shutdown();
 		gpio.unprovisionPin(myLed);
 	}

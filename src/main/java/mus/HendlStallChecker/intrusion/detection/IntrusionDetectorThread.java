@@ -62,10 +62,10 @@ public class IntrusionDetectorThread implements Runnable {
 				
 				//alarm
 				if(level == IntrusionAlertLevel.CRITICAL_SPECIFIC){
-					PlatformHelper.touchLed(RaspiPin.GPIO_01, true);
-//					PlatformHelper.pulse(RaspiPin.GPIO_01, 500);
-					Thread.sleep(1000);
-					PlatformHelper.touchLed(RaspiPin.GPIO_01, false);
+//					PlatformHelper.touchLed(RaspiPin.GPIO_01, true);
+					PlatformHelper.blink(RaspiPin.GPIO_01, 100, 2000);
+//					Thread.sleep(1000);
+//					PlatformHelper.touchLed(RaspiPin.GPIO_01, false);
 				}
 				
 				
