@@ -6,6 +6,7 @@ public class Intrusion {
 	private long id;
 	private IntrusionAlertLevel level;
 	private Date timestamp;
+	private byte[] image;
 
 	public long getId() {
 		return id;
@@ -19,7 +20,6 @@ public class Intrusion {
 		return level;
 	}
 
-	
 	public Date getTimestamp() {
 		return timestamp;
 	}
@@ -32,16 +32,27 @@ public class Intrusion {
 		this.level = level;
 	}
 
-	public Intrusion(long id, int level, Date timestamp) {
+	public Intrusion(long id, int level, Date timestamp, byte[] image) {
 		super();
 		this.id = id;
-		this.level = IntrusionAlertLevel.values()[level-1];
+		this.level = IntrusionAlertLevel.values()[level - 1];
 		this.timestamp = timestamp;
+		this.image = image;
 	}
-	
-	public Intrusion(int level, Date timestamp) {
+
+	public Intrusion(int level, Date timestamp, byte[] image) {
 		super();
 		this.level = IntrusionAlertLevel.values()[level];
 		this.timestamp = timestamp;
+		this.image = image;
 	}
+
+	public byte[] getImage() {
+		return image;
+	}
+
+	public void setImage(byte[] image) {
+		this.image = image;
+	}
+
 }

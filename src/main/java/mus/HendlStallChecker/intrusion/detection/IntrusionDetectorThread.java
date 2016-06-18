@@ -1,8 +1,6 @@
 package mus.HendlStallChecker.intrusion.detection;
 
-import java.io.File;
 import java.io.IOException;
-import java.lang.management.PlatformLoggingMXBean;
 import java.nio.file.Paths;
 import java.security.GeneralSecurityException;
 import java.util.Calendar;
@@ -10,7 +8,6 @@ import java.util.List;
 
 import com.google.api.services.vision.v1.model.EntityAnnotation;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.io.Files;
 import com.pi4j.io.gpio.RaspiPin;
 
 import mus.HendlStallChecker.Repository.DbFactory;
@@ -18,6 +15,7 @@ import mus.HendlStallChecker.Repository.Intrusion;
 import mus.HendlStallChecker.Repository.IntrusionAlertLevel;
 import mus.periphery.ImageTagger;
 import mus.periphery.OnvifExtractor;
+import mus.utility.Helper;
 import mus.utility.HendlStallUtility;
 import mus.utility.PlatformHelper;
 
@@ -78,19 +76,11 @@ public class IntrusionDetectorThread implements Runnable {
 					System.out.println("intruder: " + level + "!");
 					
 					//db insert
-					long id = DbFactory.Instance().CreateDbIntrusionRepo().insert(
-							new Intrusion(level.getValue(), Calendar.getInstance().getTime()));
+					byte[] img = Helper.convertCameraImage();
+					Intrusion intru = new Intrusion(level.getValue(), Calendar.getInstance().getTime(), img);
+					long id = DbFactory.Instance().CreateDbIntrusionRepo().insert(intru);
 					if(id == -1)
 						throw new IllegalStateException("Error inserting a new intrusion");
-					
-					//rename image file to db key
-					String path = HendlStallUtility.getSystemTempDir().replace('\\', '/') + "/";
-					String imgFile = path + OnvifExtractor.IMAGE_NAME;
-					String imgFileNew = path + id + "." + OnvifExtractor.IMAGE_NAME.split("\\.")[1];
-					
-					File source = new File(imgFile);
-					File dest = new File (imgFileNew);
-					Files.copy(source, dest);
 				}
 				
 				//wait
