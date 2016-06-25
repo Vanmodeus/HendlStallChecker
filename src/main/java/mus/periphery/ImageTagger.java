@@ -23,6 +23,12 @@ import com.google.api.services.vision.v1.model.Feature;
 import com.google.api.services.vision.v1.model.Image;
 import com.google.common.collect.ImmutableList;
 
+/**
+ *
+ * Connects to the VisionService from Google and labels an Image.<br>
+ * Plase don't abuse my licence-key
+ *
+ */
 public class ImageTagger {
 
 	private final Vision vision;
@@ -32,25 +38,46 @@ public class ImageTagger {
 		this.vision = vision;
 	}
 
+	/**
+	 * Get's an instance of the Google Vision Service with the licence-key
+	 * 
+	 * @return
+	 * @throws IOException
+	 * @throws GeneralSecurityException
+	 */
 	public static Vision getVisionService() throws IOException, GeneralSecurityException {
-		GoogleCredential credential = GoogleCredential.fromStream((InputStream) new FileInputStream("test.json")).createScoped(VisionScopes.all());
+		GoogleCredential credential = GoogleCredential.fromStream((InputStream) new FileInputStream("test.json"))
+				.createScoped(VisionScopes.all());
 
 		JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
-		return new Vision.Builder(GoogleNetHttpTransport.newTrustedTransport(), jsonFactory, credential).setApplicationName(APPLICATION_NAME).build();
+		return new Vision.Builder(GoogleNetHttpTransport.newTrustedTransport(), jsonFactory, credential)
+				.setApplicationName(APPLICATION_NAME).build();
 	}
 
+	/**
+	 * Sends an Image to the Google Vision API and returns the Annotations of
+	 * the Image (= labels like "animal", "grass", "fox",...)
+	 * 
+	 * @param path
+	 * @param maxResults
+	 * @return
+	 * @throws IOException
+	 */
 	public List<EntityAnnotation> labelImage(Path path, int maxResults) throws IOException {
 		byte[] data = Files.readAllBytes(path);
 
-		AnnotateImageRequest request = new AnnotateImageRequest().setImage(new Image().encodeContent(data)).setFeatures(ImmutableList.of(new Feature().setType("LABEL_DETECTION").setMaxResults(maxResults)));
-		Vision.Images.Annotate annotate = vision.images().annotate(new BatchAnnotateImagesRequest().setRequests(ImmutableList.of(request)));
+		AnnotateImageRequest request = new AnnotateImageRequest().setImage(new Image().encodeContent(data))
+				.setFeatures(ImmutableList.of(new Feature().setType("LABEL_DETECTION").setMaxResults(maxResults)));
+		Vision.Images.Annotate annotate = vision.images()
+				.annotate(new BatchAnnotateImagesRequest().setRequests(ImmutableList.of(request)));
 		annotate.setDisableGZipContent(true);
 
 		BatchAnnotateImagesResponse batchResponse = annotate.execute();
 		assert batchResponse.getResponses().size() == 1;
 		AnnotateImageResponse response = batchResponse.getResponses().get(0);
 		if (response.getLabelAnnotations() == null) {
-			throw new IOException(response.getError() != null ? response.getError().getMessage() : "Unknown error getting image annotations");
+			throw new IOException(response.getError() != null ? response.getError().getMessage()
+					: "Unknown error getting image annotations");
 		}
 		return response.getLabelAnnotations();
 	}

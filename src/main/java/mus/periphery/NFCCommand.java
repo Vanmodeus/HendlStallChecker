@@ -4,13 +4,19 @@ import javax.smartcardio.CardChannel;
 import javax.smartcardio.CommandAPDU;
 import javax.smartcardio.ResponseAPDU;
 
+/**
+ * Specific Commands for the NFC-Reader ACR122u
+ *
+ */
 public class NFCCommand {
 	private final static char[] hexArray = "0123456789ABCDEF".toCharArray();
 
 	private final static byte[] COMMAND_BUZZER_ON = { (byte) 0xFF, (byte) 0x00, (byte) 0x52, (byte) 0xFF, (byte) 0x00 };
-	private final static byte[] COMMAND_BUZZER_OFF = { (byte) 0xFF, (byte) 0x00, (byte) 0x52, (byte) 0x00, (byte) 0x00 };
+	private final static byte[] COMMAND_BUZZER_OFF = { (byte) 0xFF, (byte) 0x00, (byte) 0x52, (byte) 0x00,
+			(byte) 0x00 };
 	private final static byte[] COMMAND_READ_UID = { (byte) 0xFF, (byte) 0xCA, (byte) 0x00, (byte) 0x00, (byte) 0x04 };
-	// private final static byte[] COMMAND_GET_FIRMWARE_VERSION = { (byte) 0xFF, (byte) 0x00, (byte) 0x48, (byte) 0x00, (byte) 0x00 };
+	// private final static byte[] COMMAND_GET_FIRMWARE_VERSION = { (byte) 0xFF,
+	// (byte) 0x00, (byte) 0x48, (byte) 0x00, (byte) 0x00 };
 
 	public static boolean setBuzzerON(CardChannel channel) {
 		try {

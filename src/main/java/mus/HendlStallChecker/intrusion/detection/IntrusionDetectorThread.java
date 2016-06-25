@@ -19,20 +19,28 @@ import mus.utility.Helper;
 import mus.utility.HendlStallUtility;
 import mus.utility.PlatformHelper;
 
+/**
+ * The IntrusionDetectorThread-class check our webcam periodically, saves the
+ * current snapshot on the temp-dir, sends this image to google for
+ * labeling-purposes and checks if any thread is detected (like a fox)
+ * 
+ * @author Vanmodeus
+ *
+ */
 public class IntrusionDetectorThread implements Runnable {
 
 	private ImageTagger imageTagger;
 	private static final int MAX_LABELS = 10;
-	
+
 	private boolean stopped = false;
-	
-	public void end(){
+
+	public void end() {
 		stopped = true;
 	}
-	
+
 	public void run() {
 		System.out.println("INTRUSION DETECTOR thread started...");
-		
+
 		try {
 			imageTagger = new ImageTagger(ImageTagger.getVisionService());
 		} catch (IOException e1) {
@@ -42,50 +50,50 @@ public class IntrusionDetectorThread implements Runnable {
 			System.err.println("error initializing the image tagger: SecurityException");
 			e1.printStackTrace();
 		}
-		
-		while(!stopped){
-			
+
+		while (!stopped) {
+
 			try {
-				//capture camera image
-				if(!new OnvifExtractor().extractPicture()){
+				// capture camera image
+				if (!new OnvifExtractor().extractPicture()) {
 					this.end();
 					throw new IllegalStateException("Error taking picture from camera! Stopping now");
 				}
-				
-				//tag image
+
+				// tag image
 				ImmutableSet<String> descriptions = tagImage();
 
-				//detect intruder
+				// detect intruder
 				IntrusionAlertLevel level = getThreadDetectionLevel(descriptions);
-				
-				//alarm
-				if(level == IntrusionAlertLevel.CRITICAL_SPECIFIC){
+
+				// alarm
+				if (level == IntrusionAlertLevel.CRITICAL_SPECIFIC) {
 					PlatformHelper.touchLed(RaspiPin.GPIO_01, true);
-//					PlatformHelper.blink(RaspiPin.GPIO_01, 100, 2000);
+					// PlatformHelper.blink(RaspiPin.GPIO_01, 100, 2000);
 					Thread.sleep(1000);
 					PlatformHelper.touchLed(RaspiPin.GPIO_01, false);
-				}else if(level == IntrusionAlertLevel.SEVERE_CARNIVORE){
+				} else if (level == IntrusionAlertLevel.SEVERE_CARNIVORE) {
 					PlatformHelper.touchLed(RaspiPin.GPIO_02, true);
 					Thread.sleep(1000);
 					PlatformHelper.touchLed(RaspiPin.GPIO_02, false);
 				}
-				
-				
-				if(level.getValue() >= IntrusionAlertLevel.valueOf(HendlStallUtility.getIntrusionLogLevel()).getValue()){
-					//log
+
+				if (level.getValue() >= IntrusionAlertLevel.valueOf(HendlStallUtility.getIntrusionLogLevel())
+						.getValue()) {
+					// log
 					System.out.println("intruder: " + level + "!");
-					
-					//db insert
+
+					// db insert
 					byte[] img = Helper.convertCameraImage();
 					Intrusion intru = new Intrusion(level.getValue(), Calendar.getInstance().getTime(), img);
 					long id = DbFactory.Instance().CreateDbIntrusionRepo().insert(intru);
-					if(id == -1)
+					if (id == -1)
 						throw new IllegalStateException("Error inserting a new intrusion");
 				}
-				
-				//wait
+
+				// wait
 				Thread.sleep(HendlStallUtility.getFoxPictureTimeoutSeconds() * 1000);
-				
+
 			} catch (InterruptedException e) {
 				System.err.println("Fox detector got interrupted");
 				e.printStackTrace();
@@ -96,14 +104,21 @@ public class IntrusionDetectorThread implements Runnable {
 		}
 	}
 
+	/**
+	 * Checks the labes of the image for dangerous threats like foxes or
+	 * carnivorous animals
+	 * 
+	 * @param descriptions
+	 * @return
+	 */
 	private IntrusionAlertLevel getThreadDetectionLevel(ImmutableSet<String> descriptions) {
 		boolean fox = descriptions.contains("fox");
 		boolean marten = descriptions.contains("mustelidae");
 		boolean carnivore = descriptions.contains("carnivoran");
-		
-		if(fox || marten)
+
+		if (fox || marten)
 			return IntrusionAlertLevel.CRITICAL_SPECIFIC;
-		else if(carnivore)
+		else if (carnivore)
 			return IntrusionAlertLevel.SEVERE_CARNIVORE;
 		return IntrusionAlertLevel.WARNING_UNDEFINED;
 	}
@@ -121,6 +136,9 @@ public class IntrusionDetectorThread implements Runnable {
 		return descriptions;
 	}
 
+	/**
+	 * Gets the image from our predefined path at the current Tempdir of the OS
+	 */
 	private String getImageFile() {
 		String tmpDir = System.getProperty("java.io.tmpdir");
 		String file = Paths.get(tmpDir, "onvif.jpg").toAbsolutePath().toString();

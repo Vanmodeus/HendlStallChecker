@@ -6,6 +6,13 @@ import javax.smartcardio.Card;
 import javax.smartcardio.CardTerminal;
 import javax.smartcardio.TerminalFactory;
 
+/**
+ * Connection to the NFC-Reader, waits for a signal and reads the ID of the
+ * NFC-chip
+ * 
+ * @author Vanmodeus
+ *
+ */
 public class NFCController {
 	private CardTerminal terminal;
 
@@ -47,22 +54,22 @@ public class NFCController {
 			}
 		}
 	}
-	
+
 	@SuppressWarnings("restriction")
-	public String waitForNfcCard() throws Exception{
+	public String waitForNfcCard() throws Exception {
 		if (terminal == null) {
 			throw new Exception("Kein NFC-Reader vorhanden");
 		}
-		
+
 		terminal.waitForCardPresent(0);
 		Card card = terminal.connect("*");
 		String uid = NFCCommand.readUID(card.getBasicChannel());
-		
+
 		Thread.sleep(500);
 		while (terminal.isCardPresent()) {
 			Thread.sleep(100);
 		}
-		
+
 		return uid;
 	}
 }
